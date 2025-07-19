@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
-const InputBox = () => {
-  const [input, setInput] = useState("What is your name");
+const InputBox = ({ isLoading, onChange, onInput, input }) => {
   const inputRef = useRef(null);
   const inputFile = useRef(null);
 
@@ -17,23 +16,22 @@ const InputBox = () => {
     const file = e.target.files[0];
     console.log("file is added");
   };
+
   console.log(input);
   return (
     <div className="main_container mx-auto">
       <div
-        className="bg-black h-32 p-5 fixed bottom-3 left-0 right-0 w-9/12 mx-auto rounded-3xl flex flex-col"
+        className="bg-black h-32 p-5 fixed bottom-3 left-0 right-0 w-8/12 mx-auto rounded-3xl flex flex-col"
         onClick={handleClick}
       >
         <div className="flex item-center ">
           <textarea
-            ref={inputRef}
             value={input}
+            ref={inputRef}
             placeholder="Enter your Legal Questions"
             rows={2}
             className="w-full px-2  bg-transparent focus:outline-none caret-white text-white"
-            onChange={(e) => {
-              setInput(e.target.value);
-            }}
+            onChange={onInput}
           />
           <button className="no-focus">Submit</button>
         </div>
@@ -63,10 +61,11 @@ const InputBox = () => {
           <button
             disabled={!input.trim()}
             className={`${
-              !input.trim() ? "bg-gray-300 text-black" : ""
+              !input.trim() ? "bg-gray-400 text-black" : ""
             } bg-white p-2 rounded-xl px-5 font-semibold`}
+            onClick={onChange}
           >
-            Submit
+            {isLoading ? "Loading..." : "Submit"}
           </button>
         </div>
       </div>
